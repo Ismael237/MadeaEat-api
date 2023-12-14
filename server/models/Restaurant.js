@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
-const UserSchema = mongoose.Schema({
-    name: { 
+const RestaurantSchema = mongoose.Schema({
+    admin_name: { 
         type: String, 
         required: true
     },
-    first_name: { 
+    name: { 
         type: String, 
         required: true
     },
@@ -13,7 +13,7 @@ const UserSchema = mongoose.Schema({
         type: String, 
         required: true
     },
-    password: { 
+    admin_password: { 
         type: String, 
         required: true
     },
@@ -29,14 +29,14 @@ const UserSchema = mongoose.Schema({
         type: String, 
         required: true
     },
-    sexe: { 
+    image_url: { 
         type: String, 
         required: true
     },
-    role_id: { 
+    times: { 
         type: String, 
         required: true
-    },
+    }
 }, { timestamps: true });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("Restaurant", RestaurantSchema);

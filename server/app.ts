@@ -2,8 +2,8 @@ require("./config/db");
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const userRoute = require("./routes/user");
-const roleRoute = require("./routes/role");
+const userRoutes = require("./routes/user");
+const roleRoutes = require("./routes/role");
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,8 +15,9 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true,}),);
 
-app.use("/api/users", userRoute);
-app.use("/api/roles", roleRoute);
+app.use("/api/users", userRoutes);
+app.use("/api/roles", roleRoutes);
 
+app.use(express.static("./public"));
 
 module.exports = app;
