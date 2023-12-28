@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("firebase/app");
 const app_2 = require("firebase-admin/app");
 const admin = __importStar(require("firebase-admin"));
-const serviceAccount = require("../config/madea-eat-plateforme-firebase-adminsdk-8fqi2-ff516c0dbb.json");
+const serviceAccount = require("./madea-eat-plateforme-firebase-adminsdk-8fqi2-ff516c0dbb.json");
 const config = {
     apiKey: process.env.API_KEY,
     authDomain: process.env.AUTH_DOMAIN,

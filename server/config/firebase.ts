@@ -2,7 +2,7 @@ import { initializeApp as iA} from "firebase/app";
 import { cert } from "firebase-admin/app";
 import * as admin from 'firebase-admin';
 
-const serviceAccount = require("../config/madea-eat-plateforme-firebase-adminsdk-8fqi2-ff516c0dbb.json");
+const serviceAccount = require("../../madea-eat-plateforme-firebase-adminsdk-8fqi2-ff516c0dbb.json");
 
 const config = {
     apiKey: process.env.API_KEY,
