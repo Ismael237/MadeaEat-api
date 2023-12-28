@@ -1,9 +1,10 @@
-require("./config/db");
-const express = require("express");
+require("./config/firebase");
+import express, { Request as ReqType, Response as ResType, NextFunction } from 'express';
+
 const app = express();
 const bodyParser = require("body-parser");
 const userRoutes = require("./routes/user");
-const roleRoutes = require("./routes/role");
+const restaurantRoutes = require("./routes/restaurant");
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -16,8 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true,}),);
 
 app.use("/api/users", userRoutes);
-app.use("/api/roles", roleRoutes);
+app.use("/api/restaurants", restaurantRoutes);
 
-app.use(express.static("./public"));
 
 module.exports = app;

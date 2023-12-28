@@ -1,6 +1,6 @@
 require("dotenv").config({ path: "./.env" });
 const http = require("http");
-const app = require("./app");
+const expressApp = require("./app");
 const { error } = require("console");
 
 const normalizePort = (val: string) => {
@@ -16,7 +16,7 @@ const normalizePort = (val: string) => {
 }
 
 const port = normalizePort(process.env.PORT || "6000");
-app.set("port", port);
+expressApp.set("port", port);
 
 const  errorHandler = (error: { syscall: string; code: any; }) => {
     if(error.syscall !== "listen") {
@@ -36,13 +36,13 @@ const  errorHandler = (error: { syscall: string; code: any; }) => {
     }
 };
 
-const server = http.createServer(app);
+const server = http.createServer(expressApp);
 
 server.on("error", errorHandler);
 server.on("listening", () => {
     const address = server.address();
     const bind = typeof address === "string" ? "pipe " + address : "port " + port;
-    console.log("Listening on" + bind);
+    console.log("🚀 Listening on" + bind);
 });
 
 

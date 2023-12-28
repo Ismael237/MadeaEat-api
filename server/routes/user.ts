@@ -1,26 +1,26 @@
 const router = require("express").Router();
-const upload = require("../middlewares/upload");
 const { 
     allUsers, 
     addUser, 
     deleteUser, 
-    findUserById, 
+    findUserById,
+    login, 
     setUserProfilePictures, 
-    updateUser 
+    updateUser, 
 } = require("../controllers/user");
+const authMiddleware = require("../middlewares/auth");
+
 
 router.post("/login", login);
 
-router.post("/upload", upload.single("file"), setUserProfilePictures);
-
-router.get("/", allUsers); 
-
-router.get("/:id", findUserById);
-
 router.post("/", addUser);
 
-router.put("/:id", updateUser);
+// router.post("/upload", authMiddleware, setUserProfilePictures);
 
-router.delete("/:id", deleteUser);
+router.get("/", authMiddleware, findUserById);
+
+router.put("/", authMiddleware, updateUser);
+
+router.delete("/", authMiddleware, deleteUser);
 
 module.exports = router;
