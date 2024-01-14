@@ -1,4 +1,3 @@
-import { log } from 'console';
 import { Request, Response as ResType } from 'express';
 const { db } = require("../config/firebase");
 const collectionName = "user_restaurant";
@@ -23,20 +22,33 @@ module.exports.createRestaurant = async (req: Request, res: ResType) => {
     }
 }
 
+module.exports.addRestaurantUser = async (req: Request, res: ResType) => {
+    try {
+        if (req.auth) {
+            const userIdToAdd = req.body.userId;
+            const restaurantId = req.body.restaurantId;
+            await db.collection(collectionName).add({ user_id: userIdToAdd, restaurant_id: restaurantId, is_admin: false });
+            return res.status(201).json({ message: "User with id: " + restaurantId + " has been added"});
+        }
+    } catch (error) {
+        return res.status(400).json({ error });
+    }
+}
+
 module.exports.findRestaurantsByUserId = async (req: Request, res: ResType) => {
     try {
         if (req.auth) {
-            let restaurant: any[] = [];
             const userRestaurantQuerySnapshot = await db.collection(collectionName).where("user_id", "==", req.auth.userId).get();
-            const data = userRestaurantQuerySnapshot.forEach(async (doc: { data: () => { (): any; new(): any; restaurant_id: any; }; }) => {
-                var restaurantId = doc.data().restaurant_id;
-                const res = await db.collection(secondCollectionName).doc(String(restaurantId)).get();
-                restaurant.push({
+            const promises = userRestaurantQuerySnapshot.map(async (doc: { data: () => { (): any; new(): any; restaurant_id: any; }; }) => {
+                    var restaurantId = doc.data().restaurant_id;
+                    const res = await db.collection(secondCollectionName).doc(String(restaurantId)).get();
+                    return {
                     id: res.id,
                     data: res.data(),
-                });
+                };
             });
-            return res.status(201).json({ restaurant });
+            const restaurants = await Promise.all(promises);
+            return res.status(201).json({ restaurants });
         }
     } catch (error) {
         return res.status(400).json({ error });
